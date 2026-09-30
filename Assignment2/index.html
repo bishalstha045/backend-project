@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dining Management System - Experiment 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="page-container">
+
+    <header class="header">
+        <h1>Dining Management System</h1>
+        <p>Experiment 2 - Customer Hall Layout Request</p>
+        <div class="usn-badge">
+            <strong>Assignment 2</strong> |
+            <strong>USN:</strong> 24BTRCN091
+        </div>
+    </header>
+
+    <section class="form-card">
+        <h2>Customer Requirements</h2>
+
+        <form id="requestForm" novalidate>
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Customer Name</label>
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Enter customer name"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Phone Number</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="Enter phone number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Hall Length (metres)</label>
+                    <input
+                        type="number"
+                        id="hallLength"
+                        min="1"
+                        step="0.1"
+                        placeholder="Example: 15"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Hall Width (metres)</label>
+                    <input
+                        type="number"
+                        id="hallWidth"
+                        min="1"
+                        step="0.1"
+                        placeholder="Example: 10"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Number of Tables</label>
+                    <input
+                        type="number"
+                        id="tableCount"
+                        min="1"
+                        max="100"
+                        placeholder="Example: 7"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Chairs Per Table</label>
+                    <input
+                        type="number"
+                        id="chairsPerTable"
+                        min="1"
+                        max="12"
+                        placeholder="Example: 4"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Event Day</label>
+                    <select id="eventDay" required>
+                        <option value="">Select day</option>
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
+                        <option>Saturday</option>
+                        <option>Sunday</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Event Date</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+
+                <div class="field full-width">
+                    <label>Requested Hall Layout</label>
+
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="layoutPreference"
+                                value="automatic"
+                                checked
+                            >
+                            Automatic
+                        </label>
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="layoutPreference"
+                                value="compact"
+                            >
+                            Compact
+                        </label>
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="layoutPreference"
+                                value="spacious"
+                            >
+                            Spacious
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field full-width">
+                    <label>Remarks Required?</label>
+
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="remarksRequired"
+                                value="Yes"
+                            >
+                            Yes
+                        </label>
+
+                        <label class="radio-option">
+                            <input
+                                type="radio"
+                                name="remarksRequired"
+                                value="No"
+                                checked
+                            >
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field full-width">
+                    <label>Remarks</label>
+                    <textarea
+                        id="remarks"
+                        rows="3"
+                        placeholder="Optional customer remarks..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="primary-btn">
+                    Generate Layout
+                </button>
+
+                <button
+                    type="button"
+                    class="save-btn"
+                    id="saveBtn"
+                    disabled
+                >
+                    Save Request
+                </button>
+
+                <button
+                    type="reset"
+                    class="secondary-btn"
+                    id="resetBtn"
+                >
+                    Clear
+                </button>
+            </div>
+
+        </form>
+
+        <div id="message" class="message"></div>
+    </section>
+
+    <!-- REQUEST SUMMARY -->
+    <section
+        class="result-card hidden"
+        id="requestSummary"
+    >
+        <h2>Request Summary</h2>
+
+        <div class="summary-grid">
+            <div>
+                <strong>Request ID</strong>
+                <span id="summaryReqId">-</span>
+            </div>
+
+            <div>
+                <strong>Customer</strong>
+                <span id="summaryCustomer">-</span>
+            </div>
+
+            <div>
+                <strong>Phone</strong>
+                <span id="summaryPhone">-</span>
+            </div>
+
+            <div>
+                <strong>Hall</strong>
+                <span id="summaryHall">-</span>
+            </div>
+
+            <div>
+                <strong>Tables</strong>
+                <span id="summaryTables">-</span>
+            </div>
+
+            <div>
+                <strong>Total Chairs</strong>
+                <span id="summaryChairs">-</span>
+            </div>
+
+            <div>
+                <strong>Event</strong>
+                <span id="summaryEvent">-</span>
+            </div>
+
+            <div>
+                <strong>Selected Layout</strong>
+                <span id="summaryLayout">-</span>
+            </div>
+
+            <div>
+                <strong>Admin</strong>
+                <span>Admin</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- LAYOUTS -->
+    <section
+        class="layouts-card hidden"
+        id="layoutsSection"
+    >
+        <div class="section-heading">
+            <div>
+                <h2 id="layoutHeading">Virtual Possible Layouts</h2>
+                <p>
+                    Tables and chairs are arranged automatically
+                    according to the requested hall dimensions.
+                </p>
+            </div>
+
+            <div id="layoutStatus" class="status"></div>
+        </div>
+
+        <div id="suggestion" class="suggestion"></div>
+
+        <div id="layoutsContainer" class="layouts-container"></div>
+
+        <p class="layout-help" id="layoutHelp">
+            Select a layout above, make any required changes, then save the request.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>Dining Management System | HTML5 + CSS3 + Basic JavaScript + Node.js + JSON</p>
+    </footer>
+
+</div>
+
+<script>
+const form = document.getElementById("requestForm");
+const message = document.getElementById("message");
+const saveBtn = document.getElementById("saveBtn");
+const eventDate = document.getElementById("eventDate");
+let generatedRequest = null;
+let generatedLayouts = [];
+let selectedLayoutIndex = 0;
+
+function getToday() {
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${today.getFullYear()}-${month}-${day}`;
+}
+
+eventDate.min = getToday();
+
+eventDate.addEventListener("invalid", function() {
+    if (eventDate.validity.rangeUnderflow) {
+        message.className = "message error";
+        message.textContent = "Event date cannot be in the past. Select today or a future date.";
+    }
+});
+
+function getRequestData() {
+    return {
+        customerName: document.getElementById("customerName").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        hallLength: Number(document.getElementById("hallLength").value),
+        hallWidth: Number(document.getElementById("hallWidth").value),
+        tableCount: Number(document.getElementById("tableCount").value),
+        chairsPerTable: Number(document.getElementById("chairsPerTable").value),
+        eventDay: document.getElementById("eventDay").value,
+        eventDate: eventDate.value,
+        layoutPreference: document.querySelector('input[name="layoutPreference"]:checked').value,
+        remarksRequired: document.querySelector('input[name="remarksRequired"]:checked').value,
+        remarks: document.getElementById("remarks").value.trim(),
+        admin: "Admin"
+    };
+}
+
+function validateRequestData(data) {
+    if (!data.customerName) return "Customer name is required.";
+    if (!/^[0-9]{10}$/.test(data.phone)) return "Phone number must contain exactly 10 digits.";
+    if (!Number.isFinite(data.hallLength) || data.hallLength <= 0) return "Hall length must be greater than 0.";
+    if (!Number.isFinite(data.hallWidth) || data.hallWidth <= 0) return "Hall width must be greater than 0.";
+    if (!Number.isInteger(data.tableCount) || data.tableCount < 1 || data.tableCount > 100) return "Table count must be between 1 and 100.";
+    if (!Number.isInteger(data.chairsPerTable) || data.chairsPerTable < 1 || data.chairsPerTable > 12) return "Chairs per table must be between 1 and 12.";
+    if (!data.eventDay) return "Please select an event day.";
+    if (!data.eventDate) return "Please select an event date.";
+    if (data.eventDate < getToday()) return "Event date cannot be in the past. Select today or a future date.";
+    return null;
+}
+
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const requestData = getRequestData();
+    generatedRequest = null;
+    generatedLayouts = [];
+    selectedLayoutIndex = 0;
+    saveBtn.disabled = true;
+    document.getElementById("layoutsSection").classList.add("hidden");
+    document.getElementById("requestSummary").classList.add("hidden");
+    document.getElementById("layoutsContainer").innerHTML = "";
+    message.className = "message";
+
+    const validationMessage = validateRequestData(requestData);
+    if (validationMessage) {
+        message.className = "message error";
+        message.textContent = validationMessage;
+        return;
+    }
+
+    message.textContent = "Validating request and generating layouts...";
+
+    try {
+        const response = await fetch("/api/layouts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Request failed");
+        }
+
+        generatedRequest = requestData;
+        generatedLayouts = result.layouts;
+        selectedLayoutIndex = result.layouts.findIndex(layout => layout.possible);
+        if (selectedLayoutIndex < 0) selectedLayoutIndex = 0;
+        showLayouts(requestData, generatedLayouts);
+        saveBtn.disabled = false;
+        message.className = "message success";
+        message.textContent = "Layout generated. Select an option, then save when ready.";
+
+    } catch (error) {
+        message.className = "message error";
+        message.textContent = error.message;
+    }
+});
+
+saveBtn.addEventListener("click", async function() {
+    if (!generatedRequest || !generatedLayouts.length) return;
+    message.className = "message";
+    message.textContent = "Saving request...";
+
+    try {
+        const requestData = {
+            ...generatedRequest,
+            layouts: [generatedLayouts[selectedLayoutIndex]],
+            selectedLayout: generatedLayouts[selectedLayoutIndex].name
+        };
+        const response = await fetch("/api/requests", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestData)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || "Request failed");
+        showSummary(result.request);
+        selectedLayoutIndex = 0;
+        showLayouts(result.request, result.request.layouts);
+        saveBtn.disabled = true;
+        message.className = "message success";
+        message.textContent = "Request saved successfully in JSON.";
+    } catch (error) {
+        message.className = "message error";
+        message.textContent = error.message;
+    }
+});
+
+function showSummary(request) {
+
+    document
+        .getElementById("requestSummary")
+        .classList.remove("hidden");
+
+    document.getElementById("summaryReqId")
+        .textContent = request.reqId;
+
+    document.getElementById("summaryCustomer")
+        .textContent = request.customerName;
+
+    document.getElementById("summaryPhone")
+        .textContent = request.phone;
+
+    document.getElementById("summaryHall")
+        .textContent =
+            `${request.hallLength}m × ${request.hallWidth}m`;
+
+    document.getElementById("summaryTables")
+        .textContent = request.tableCount;
+
+    document.getElementById("summaryChairs")
+        .textContent =
+            request.tableCount * request.chairsPerTable;
+
+    document.getElementById("summaryEvent")
+        .textContent =
+            `${request.eventDay}, ${request.eventDate}`;
+
+    document.getElementById("summaryLayout")
+        .textContent = request.selectedLayout || "-";
+}
+
+function showLayouts(request, layouts) {
+
+    document
+        .getElementById("layoutsSection")
+        .classList.remove("hidden");
+
+    const container =
+        document.getElementById("layoutsContainer");
+
+    container.innerHTML = "";
+
+    const status =
+        document.getElementById("layoutStatus");
+
+    const suggestion =
+        document.getElementById("suggestion");
+
+    const savedView = layouts.length === 1 && request.selectedLayout;
+    document.getElementById("layoutHeading").textContent =
+        savedView ? "Selected Hall Layout" : "Virtual Possible Layouts";
+    document.getElementById("layoutHelp").textContent = savedView
+        ? "This is the layout saved for the request."
+        : "Select a layout above, make any required changes, then save the request.";
+
+    const possibleLayouts =
+        layouts.filter(layout => layout.possible);
+
+    if (possibleLayouts.length === 0) {
+
+        status.textContent = "No suitable layout";
+        status.className = "status status-danger";
+
+        suggestion.innerHTML = `
+            <strong>Suggestion:</strong>
+            The requested number of tables and chairs does not
+            comfortably fit in the selected hall.
+            Try increasing the hall dimensions or reducing the
+            number of tables/chairs.
+        `;
+
+    } else {
+
+        status.textContent =
+            `${possibleLayouts.length} possible layout(s)`;
+
+        status.className = "status status-success";
+
+        const best =
+            possibleLayouts[0];
+
+        suggestion.innerHTML = `
+            <strong>Suggested layout:</strong>
+            ${best.name}.
+            This layout fits the requested hall dimensions.
+        `;
+    }
+
+    layouts.forEach((layout, index) => {
+
+        const layoutType = layout.type || (index === 0 ? "compact" : index === 1 ? "balanced" : "spacious");
+        const card = document.createElement("div");
+
+        card.className =
+            `layout-card layout-card-${layoutType} ` +
+            (layout.possible ? "" : "layout-disabled") +
+            (index === selectedLayoutIndex ? " layout-selected" : "");
+
+        card.innerHTML = `
+            <div class="layout-header">
+                <div>
+                    <h3>${layout.name}</h3>
+                    <span class="layout-badge-tag badge-tag-${layoutType}">
+                        ${layout.badge || (layout.columns + " Columns")}
+                    </span>
+                </div>
+
+                <span class="${layout.possible ? "fit" : "not-fit"}">
+                    ${layout.possible ? "Fits" : "Does Not Fit"}
+                </span>
+            </div>
+
+            <button type="button" class="layout-select" ${layout.possible ? "" : "disabled"}>
+                ${index === selectedLayoutIndex ? "Selected layout" : "Use this layout"}
+            </button>
+
+            <p class="layout-description">
+                ${layout.description}
+            </p>
+
+            <div class="floor-plan floor-plan-${layoutType}"
+                 style="
+                    --cols: ${layout.columns};
+                    --rows: ${layout.rows};
+                    --layout-gap: ${layout.gap}px;
+                 ">
+                ${createTables(
+                    layout,
+                    request.chairsPerTable
+                )}
+            </div>
+
+            <div class="layout-details">
+                <span>
+                    <strong>Tables:</strong>
+                    ${request.tableCount}
+                </span>
+
+                <span>
+                    <strong>Chairs:</strong>
+                    ${request.tableCount * request.chairsPerTable}
+                </span>
+
+                <span>
+                    <strong>Used Area:</strong>
+                    ${layout.usedLength}m × ${layout.usedWidth}m
+                </span>
+            </div>
+        `;
+
+        container.appendChild(card);
+
+        card.querySelector(".layout-select").addEventListener("click", function() {
+            selectedLayoutIndex = index;
+            showLayouts(request, layouts);
+            message.className = "message success";
+            message.textContent = `${layout.name} selected. Changes are not saved yet.`;
+        });
+    });
+}
+
+function createTables(layout, chairsPerTable) {
+    const cfg = layout.style || (
+        layout.name.includes("Compact")
+            ? { tableWidth: 42, tableHeight: 28, chairWidth: 10, chairHeight: 8, chairGap: 3 }
+            : layout.name.includes("Balanced")
+                ? { tableWidth: 52, tableHeight: 34, chairWidth: 13, chairHeight: 10, chairGap: 4 }
+                : { tableWidth: 68, tableHeight: 44, chairWidth: 16, chairHeight: 12, chairGap: 6 }
+    );
+
+    const tableWidth = cfg.tableWidth;
+    const tableHeight = cfg.tableHeight;
+    const chairWidth = cfg.chairWidth;
+    const chairHeight = cfg.chairHeight;
+    const chairGap = cfg.chairGap;
+    const unitWidth = tableWidth + (chairWidth + chairGap) * 2;
+    const unitHeight = tableHeight + (chairHeight + chairGap) * 2;
+    const tableX = chairWidth + chairGap;
+    const tableY = chairHeight + chairGap;
+
+    let html = "";
+
+    for (let i = 1; i <= layout.tableCount; i++) {
+        html += `
+            <div class="virtual-table"
+                 style="--unit-width:${unitWidth}px; --unit-height:${unitHeight}px;">
+                <div class="virtual-chairs">
+                    ${createChairs({
+                        tableX,
+                        tableY,
+                        tableWidth,
+                        tableHeight,
+                        chairWidth,
+                        chairHeight,
+                        chairGap,
+                        count: chairsPerTable
+                    })}
+                </div>
+
+                 <div class="virtual-table-body"
+                     style="left:${tableX}px; top:${tableY}px; width:${tableWidth}px; height:${tableHeight}px;">
+                    T${i}
+                </div>
+            </div>
+        `;
+    }
+
+    return html;
+}
+
+function positionChairs({
+    tableX,
+    tableY,
+    tableWidth,
+    tableHeight,
+    chairWidth,
+    chairHeight,
+    chairGap,
+    count
+}) {
+    if (count <= 0) return [];
+
+    const sideCounts = [0, 0, 0, 0];
+    const sideOrder = [0, 2, 1, 3];
+    let remaining;
+
+    if (count < 4) {
+        const smallCountOrder = [0, 2, 1];
+        for (let index = 0; index < count; index++) {
+            sideCounts[smallCountOrder[index]] = 1;
+        }
+        remaining = 0;
+    } else {
+        sideCounts.fill(1);
+        remaining = count - 4;
+    }
+
+    let sideIndex = 0;
+    while (remaining > 0) {
+        sideCounts[sideOrder[sideIndex % sideOrder.length]]++;
+        remaining--;
+        sideIndex++;
+    }
+
+    const positions = [];
+    const addTopOrBottom = (side, sideCount) => {
+        const totalWidth = sideCount * chairWidth + (sideCount - 1) * chairGap;
+        const startX = tableX + (tableWidth - totalWidth) / 2;
+        const y = side === "top"
+            ? tableY - chairGap - chairHeight
+            : tableY + tableHeight + chairGap;
+        const rotation = side === "top" ? 0 : 180;
+
+        for (let index = 0; index < sideCount; index++) {
+            positions.push({
+                side,
+                x: startX + index * (chairWidth + chairGap),
+                y,
+                rotation
+            });
+        }
+    };
+
+    const addLeftOrRight = (side, sideCount) => {
+        const totalHeight = sideCount * chairHeight + (sideCount - 1) * chairGap;
+        const startY = tableY + (tableHeight - totalHeight) / 2;
+        const x = side === "left"
+            ? tableX - chairGap - chairWidth
+            : tableX + tableWidth + chairGap;
+        const rotation = side === "left" ? 90 : -90;
+
+        for (let index = 0; index < sideCount; index++) {
+            positions.push({
+                side,
+                x,
+                y: startY + index * (chairHeight + chairGap),
+                rotation
+            });
+        }
+    };
+
+    addTopOrBottom("top", sideCounts[0]);
+    addLeftOrRight("right", sideCounts[1]);
+    addTopOrBottom("bottom", sideCounts[2]);
+    addLeftOrRight("left", sideCounts[3]);
+    return positions;
+}
+
+function createChairs(tableGeometry) {
+    return positionChairs(tableGeometry).map(position => `
+        <span class="virtual-chair ${position.side}"
+              style="left:${position.x}px; top:${position.y}px; width:${tableGeometry.chairWidth}px; height:${tableGeometry.chairHeight}px; transform:rotate(${position.rotation}deg);"></span>
+    `).join("");
+}
+
+document
+    .getElementById("resetBtn")
+    .addEventListener("click", function() {
+
+        document
+            .getElementById("requestSummary")
+            .classList.add("hidden");
+
+        document
+            .getElementById("layoutsSection")
+            .classList.add("hidden");
+
+        saveBtn.disabled = true;
+        generatedRequest = null;
+        generatedLayouts = [];
+        selectedLayoutIndex = 0;
+
+        message.className = "message";
+        message.textContent = "";
+    });
+</script>
+
+</body>
+</html>
