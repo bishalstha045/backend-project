@@ -1,0 +1,1220 @@
+[
+    {
+        "reqId": "REQ001",
+        "customerName": "Manush Budhathoki",
+        "phone": "9800039445",
+        "hallLength": 15,
+        "hallWidth": 10,
+        "tableCount": 7,
+        "chairsPerTable": 4,
+        "totalChairs": 28,
+        "eventDay": "Monday",
+        "eventDate": "2026-09-02",
+        "layoutPreference": "compact",
+        "remarksRequired": "Yes",
+        "remarks": "niceinciencien",
+        "admin": "Admin",
+        "submittedAt": "2026-08-17T09:06:37.871Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 7,
+                "columns": 4,
+                "rows": 2,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 3.2,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "3 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 7,
+                "columns": 3,
+                "rows": 3,
+                "gap": 16,
+                "usedLength": 8.4,
+                "usedWidth": 6.6,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": false,
+                "tableCount": 7,
+                "columns": 2,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST001",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ002",
+        "customerName": "Rahul Kushwaha",
+        "phone": "8974892347",
+        "hallLength": 20,
+        "hallWidth": 15,
+        "tableCount": 6,
+        "chairsPerTable": 4,
+        "totalChairs": 24,
+        "eventDay": "Thursday",
+        "eventDate": "2026-08-27",
+        "layoutPreference": "automatic",
+        "remarksRequired": "Yes",
+        "remarks": "I need proper service",
+        "admin": "Admin",
+        "submittedAt": "2026-08-24T15:30:57.207Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 6,
+                "columns": 3,
+                "rows": 2,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 3.2,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 6,
+                "columns": 2,
+                "rows": 3,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 6.6,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 6,
+                "columns": 2,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST002",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ003",
+        "customerName": "abc",
+        "phone": "3847239847",
+        "hallLength": 50,
+        "hallWidth": 20,
+        "tableCount": 10,
+        "chairsPerTable": 8,
+        "totalChairs": 80,
+        "eventDay": "Thursday",
+        "eventDate": "2026-08-20",
+        "layoutPreference": "automatic",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-08-24T16:00:05.120Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 10,
+                "columns": 4,
+                "rows": 3,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 4.8,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "3 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 10,
+                "columns": 3,
+                "rows": 4,
+                "gap": 16,
+                "usedLength": 8.4,
+                "usedWidth": 8.8,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 10,
+                "columns": 2,
+                "rows": 5,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 14,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST003",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ004",
+        "customerName": "Saroj Shrestha",
+        "phone": "8923832472",
+        "hallLength": 25,
+        "hallWidth": 20,
+        "tableCount": 6,
+        "chairsPerTable": 5,
+        "eventDay": "Saturday",
+        "eventDate": "2026-08-26",
+        "layoutPreference": "compact",
+        "remarksRequired": "Yes",
+        "remarks": "by Saroj Shrestha",
+        "admin": "Admin",
+        "totalChairs": 30,
+        "submittedAt": "2026-08-24T18:01:01.706Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 6,
+                "columns": 3,
+                "rows": 2,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 3.2,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 6,
+                "columns": 2,
+                "rows": 3,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 6.6,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 6,
+                "columns": 2,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST004",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ005",
+        "customerName": "Saroj Shrestha",
+        "phone": "8923832472",
+        "hallLength": 20,
+        "hallWidth": 11,
+        "tableCount": 5,
+        "chairsPerTable": 4,
+        "totalChairs": 20,
+        "eventDay": "Thursday",
+        "eventDate": "2005-04-23",
+        "layoutPreference": "compact",
+        "remarksRequired": "No",
+        "remarks": "dsfgwf",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:21:36.547Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 3,
+                "rows": 2,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 3.2,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 2,
+                "rows": 3,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 6.6,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 2,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST005",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ006",
+        "customerName": "bishal",
+        "phone": "8923832472",
+        "hallLength": 13,
+        "hallWidth": 11,
+        "tableCount": 5,
+        "chairsPerTable": 5,
+        "totalChairs": 25,
+        "eventDay": "Saturday",
+        "eventDate": "2005-12-22",
+        "layoutPreference": "spacious",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:22:47.873Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 3,
+                "rows": 2,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 3.2,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 2,
+                "rows": 3,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 6.6,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 2,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST006",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ007",
+        "customerName": "mandghd",
+        "phone": "3423424427",
+        "hallLength": 22,
+        "hallWidth": 22,
+        "tableCount": 4,
+        "chairsPerTable": 3,
+        "totalChairs": 12,
+        "eventDay": "Friday",
+        "eventDate": "2005-12-22",
+        "layoutPreference": "automatic",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:27:08.669Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 4,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 1,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST007",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ008",
+        "customerName": "Saroj Shrestha",
+        "phone": "3453543655",
+        "hallLength": 30,
+        "hallWidth": 11,
+        "tableCount": 3,
+        "chairsPerTable": 3,
+        "totalChairs": 9,
+        "eventDay": "Wednesday",
+        "eventDate": "2005-02-22",
+        "layoutPreference": "automatic",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:35:29.552Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 3,
+                "columns": 3,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 3,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 3,
+                "columns": 1,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST008",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ009",
+        "customerName": "msss",
+        "phone": "8877778866",
+        "hallLength": 30,
+        "hallWidth": 55,
+        "tableCount": 4,
+        "chairsPerTable": 8,
+        "totalChairs": 32,
+        "eventDay": "Wednesday",
+        "eventDate": "2005-09-02",
+        "layoutPreference": "compact",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:43:54.224Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 4,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 1,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST009",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ010",
+        "customerName": "msss",
+        "phone": "8877778866",
+        "hallLength": 30,
+        "hallWidth": 55,
+        "tableCount": 4,
+        "chairsPerTable": 4,
+        "totalChairs": 16,
+        "eventDay": "Wednesday",
+        "eventDate": "2005-09-02",
+        "layoutPreference": "compact",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:44:58.024Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 4,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 1,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST010",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ011",
+        "customerName": "msss",
+        "phone": "8877778866",
+        "hallLength": 30,
+        "hallWidth": 55,
+        "tableCount": 4,
+        "chairsPerTable": 4,
+        "totalChairs": 16,
+        "eventDay": "Wednesday",
+        "eventDate": "2005-09-02",
+        "layoutPreference": "compact",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:44:59.306Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 4,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 1,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST011",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ012",
+        "customerName": "msss",
+        "phone": "8877778866",
+        "hallLength": 30,
+        "hallWidth": 55,
+        "tableCount": 4,
+        "chairsPerTable": 4,
+        "totalChairs": 16,
+        "eventDay": "Wednesday",
+        "eventDate": "2005-09-02",
+        "layoutPreference": "compact",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T05:45:00.056Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 4,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 1,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "customerId": "CUST012",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ013",
+        "customerName": "qweewqwd",
+        "phone": "3453543655",
+        "hallLength": 22,
+        "hallWidth": 20,
+        "tableCount": 3,
+        "chairsPerTable": 4,
+        "totalChairs": 12,
+        "eventDay": "Thursday",
+        "eventDate": "2027-02-01",
+        "layoutPreference": "compact",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T06:07:01.154Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 3,
+                "columns": 3,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 3,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 3,
+                "columns": 1,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "selectedLayout": "Compact Layout",
+        "customerId": "CUST013",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ014",
+        "customerName": "Selected Layout Test",
+        "phone": "9812345678",
+        "hallLength": 30,
+        "hallWidth": 20,
+        "tableCount": 4,
+        "chairsPerTable": 4,
+        "totalChairs": 16,
+        "eventDay": "Monday",
+        "eventDate": "2099-01-01",
+        "layoutPreference": "automatic",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T06:09:33.290Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "4 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 4,
+                "rows": 1,
+                "gap": 8,
+                "usedLength": 8.8,
+                "usedWidth": 1.6,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 2,
+                "rows": 2,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 4.4,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "1 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 4,
+                "columns": 1,
+                "rows": 4,
+                "gap": 28,
+                "usedLength": 3.6,
+                "usedWidth": 11.2,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "selectedLayout": "Balanced Layout",
+        "customerId": "CUST014",
+        "status": "Confirmed"
+    },
+    {
+        "reqId": "REQ015",
+        "customerName": "msss",
+        "phone": "3453543655",
+        "hallLength": 33,
+        "hallWidth": 33,
+        "tableCount": 5,
+        "chairsPerTable": 12,
+        "totalChairs": 60,
+        "eventDay": "Saturday",
+        "eventDate": "2027-11-10",
+        "layoutPreference": "spacious",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-09-03T06:31:10.217Z",
+        "layouts": [
+            {
+                "type": "compact",
+                "name": "Compact Layout",
+                "badge": "3 Columns - High Density",
+                "description": "Tables arranged in dense, space-saving rows to maximize hall capacity.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 3,
+                "rows": 2,
+                "gap": 8,
+                "usedLength": 6.6,
+                "usedWidth": 3.2,
+                "style": {
+                    "tableWidth": 42,
+                    "tableHeight": 28,
+                    "chairWidth": 10,
+                    "chairHeight": 8,
+                    "chairGap": 3
+                }
+            },
+            {
+                "type": "balanced",
+                "name": "Balanced Layout",
+                "badge": "2 Columns - Center Aisle",
+                "description": "Evenly distributed tables separated by a central walking aisle for easy movement.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 2,
+                "rows": 3,
+                "gap": 16,
+                "usedLength": 5.6,
+                "usedWidth": 6.6,
+                "style": {
+                    "tableWidth": 52,
+                    "tableHeight": 34,
+                    "chairWidth": 13,
+                    "chairHeight": 10,
+                    "chairGap": 4
+                }
+            },
+            {
+                "type": "spacious",
+                "name": "Spacious Layout",
+                "badge": "2 Columns - Wide Corridors",
+                "description": "Fewer tables per row with wide perimeter aisles for premium comfort.",
+                "possible": true,
+                "tableCount": 5,
+                "columns": 2,
+                "rows": 3,
+                "gap": 28,
+                "usedLength": 7.2,
+                "usedWidth": 8.4,
+                "style": {
+                    "tableWidth": 68,
+                    "tableHeight": 44,
+                    "chairWidth": 16,
+                    "chairHeight": 12,
+                    "chairGap": 6
+                }
+            }
+        ],
+        "selectedLayout": "Spacious Layout",
+        "customerId": "CUST015",
+        "status": "Confirmed"
+    }
+]

@@ -1,0 +1,9 @@
+{
+    "name": "dining-management-system-experiment-2",
+    "version": "1.0.0",
+    "description": "Dining Management System Experiment 2 using HTML, CSS, JavaScript, Node.js and JSON",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    }
+}

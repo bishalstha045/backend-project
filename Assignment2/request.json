@@ -1,0 +1,31 @@
+[
+    {
+        "reqId": "REQ001",
+        "customerName": "Bishal",
+        "phone": "9812345678",
+        "hallLength": 15,
+        "hallWidth": 10,
+        "tableCount": 7,
+        "chairsPerTable": 4,
+        "totalChairs": 28,
+        "eventDay": "Saturday",
+        "eventDate": "2026-08-22",
+        "layoutPreference": "automatic",
+        "remarksRequired": "No",
+        "remarks": "",
+        "admin": "Admin",
+        "submittedAt": "2026-08-17T09:00:00.000Z",
+        "layouts": [
+            {
+                "name": "Compact Layout",
+                "description": "Tables are placed close together to use the hall efficiently.",
+                "possible": true,
+                "tableCount": 7,
+                "columns": 3,
+                "rows": 3,
+                "usedLength": 7.2,
+                "usedWidth": 5.4
+            }
+        ]
+    }
+]
