@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dining Management</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="page-container">
+
+<header class="header">
+<h1>Dining Management System</h1>
+<p>Simple Restaurant Floor Plan</p>
+<div class="usn-badge">Assignment 1 | USN: 24btrcn091</div>
+</header>
+
+<div class="input-panel">
+
+<h2>Dining Hall Details</h2>
+
+<div class="input-row">
+
+<div class="input-group">
+<label>Hall Length (m)</label>
+<input type="number" id="hallLength" value="15" min="1">
+</div>
+
+<div class="input-group">
+<label>Hall Width (m)</label>
+<input type="number" id="hallWidth" value="10" min="1">
+</div>
+
+<div class="input-group">
+<label>Hall Height (m)</label>
+<input type="number" id="hallHeight" value="4" min="1">
+</div>
+
+</div>
+
+<div class="input-row">
+
+<div class="input-group">
+<label>Number of Tables</label>
+<input type="number" id="tableCount" value="3" min="1">
+</div>
+
+</div>
+
+<button onclick="generateFloorPlan()">
+Generate Floor Plan
+</button>
+
+</div>
+
+<div class="info-bar">
+
+<b>Hall Dimensions:</b>
+
+<span id="hallDimension">
+15 × 10 × 4 m
+</span>
+
+</div>
+
+<div class="hall-height">
+Hall Height:
+<span id="heightDisplay">4 m</span>
+</div>
+
+<div class="zones">
+
+<div class="zone">
+
+<div class="zone-tag">
+Dining Zone 1
+</div>
+
+<div class="zone-input">
+<label>
+Table Shape
+<select class="zone-shape-input">
+<option value="rectangle">Rectangle</option>
+<option value="square">Square</option>
+<option value="circle">Circle</option>
+</select>
+</label>
+
+<label>
+Table Size
+<span class="size-fields">
+<input class="zone-length-input" type="number" value="120" min="40" max="240" step="10" aria-label="Table length in centimetres">
+<span>×</span>
+<input class="zone-width-input" type="number" value="80" min="40" max="180" step="10" aria-label="Table width in centimetres">
+<small>cm</small>
+</span>
+</label>
+
+<label>
+Number of Chairs
+<input class="zone-chair-input" type="number" value="6" min="1" max="24">
+</label>
+
+</div>
+
+<div class="zone-tables">
+
+<div class="table-wrap">
+
+<div class="chairs-row top-chairs"></div>
+
+<div class="table rect-table">
+
+<b>T1</b>
+
+<small>
+120 × 80 cm
+</small>
+
+</div>
+
+<div class="chairs-row bottom-chairs"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="zone">
+
+<div class="zone-tag">
+Dining Zone 2
+</div>
+
+<div class="zone-input">
+<label>
+Table Shape
+<select class="zone-shape-input">
+<option value="rectangle">Rectangle</option>
+<option value="square">Square</option>
+<option value="circle">Circle</option>
+</select>
+</label>
+
+<label>
+Table Size
+<span class="size-fields">
+<input class="zone-length-input" type="number" value="120" min="40" max="240" step="10" aria-label="Table length in centimetres">
+<span>×</span>
+<input class="zone-width-input" type="number" value="80" min="40" max="180" step="10" aria-label="Table width in centimetres">
+<small>cm</small>
+</span>
+</label>
+
+<label>
+Number of Chairs
+<input class="zone-chair-input" type="number" value="6" min="1" max="24">
+</label>
+
+</div>
+
+<div class="zone-tables">
+
+<div class="table-wrap">
+
+<div class="chairs-row top-chairs"></div>
+
+<div class="table rect-table">
+
+<b>T2</b>
+
+<small>
+120 × 80 cm
+</small>
+
+</div>
+
+<div class="chairs-row bottom-chairs"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="zone">
+
+<div class="zone-tag">
+Dining Zone 3
+</div>
+
+<div class="zone-input">
+<label>
+Table Shape
+<select class="zone-shape-input">
+<option value="rectangle">Rectangle</option>
+<option value="square">Square</option>
+<option value="circle">Circle</option>
+</select>
+</label>
+
+<label>
+Table Size
+<span class="size-fields">
+<input class="zone-length-input" type="number" value="120" min="40" max="240" step="10" aria-label="Table length in centimetres">
+<span>×</span>
+<input class="zone-width-input" type="number" value="80" min="40" max="180" step="10" aria-label="Table width in centimetres">
+<small>cm</small>
+</span>
+</label>
+
+<label>
+Number of Chairs
+<input class="zone-chair-input" type="number" value="6" min="1" max="24">
+</label>
+
+</div>
+
+<div class="zone-tables">
+
+<div class="table-wrap">
+
+<div class="chairs-row top-chairs"></div>
+
+<div class="table rect-table">
+
+<b>T3</b>
+
+<small>
+120 × 80 cm
+</small>
+
+</div>
+
+<div class="chairs-row bottom-chairs"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="entrance">
+↓ MAIN ENTRANCE / EXIT ↓
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
