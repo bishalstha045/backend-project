@@ -253,5 +253,175 @@ Number of Chairs
 
 </div>
 
+<script>
+
+function positionChairs({ tableX, tableY, tableWidth, tableHeight, chairWidth, chairHeight, chairGap, count }) {
+    const sideCounts = [0, 0, 0, 0];
+    const sideOrder = [0, 2, 1, 3];
+
+    if (count < 4) {
+        [0, 2, 1].slice(0, count).forEach(side => sideCounts[side] = 1);
+    } else {
+        sideCounts.fill(1);
+        let remaining = count - 4;
+        let sideIndex = 0;
+        while (remaining > 0) {
+            sideCounts[sideOrder[sideIndex % sideOrder.length]]++;
+            remaining--;
+            sideIndex++;
+        }
+    }
+
+    const positions = [];
+    const addHorizontal = (side, sideCount) => {
+        const totalWidth = sideCount * chairWidth + (sideCount - 1) * chairGap;
+        const startX = tableX + (tableWidth - totalWidth) / 2;
+        const y = side === "top"
+            ? tableY - chairGap - chairHeight
+            : tableY + tableHeight + chairGap;
+        const rotation = side === "top" ? 0 : 180;
+
+        for (let index = 0; index < sideCount; index++) {
+            positions.push({ side, x: startX + index * (chairWidth + chairGap), y, rotation });
+        }
+    };
+
+    const addVertical = (side, sideCount) => {
+        const totalHeight = sideCount * chairHeight + (sideCount - 1) * chairGap;
+        const startY = tableY + (tableHeight - totalHeight) / 2;
+        const x = side === "left"
+            ? tableX - chairGap - chairWidth
+            : tableX + tableWidth + chairGap;
+        const rotation = side === "left" ? 90 : -90;
+
+        for (let index = 0; index < sideCount; index++) {
+            positions.push({ side, x, y: startY + index * (chairHeight + chairGap), rotation });
+        }
+    };
+
+    addHorizontal("top", sideCounts[0]);
+    addVertical("right", sideCounts[1]);
+    addHorizontal("bottom", sideCounts[2]);
+    addVertical("left", sideCounts[3]);
+    return positions;
+}
+
+function createTableMarkup(tableNumber, tableLength, tableWidth, chairCount, shape) {
+    const chairWidth = 24;
+    const chairHeight = 18;
+    const chairGap = 8;
+    const tablePixelWidth = shape === "circle"
+        ? Math.max(72, Math.min(150, tableLength * 0.62))
+        : Math.max(100, Math.min(190, tableLength * 0.75));
+    const tablePixelHeight = shape === "circle"
+        ? tablePixelWidth
+        : shape === "square"
+            ? tablePixelWidth
+            : Math.max(58, Math.min(120, tableWidth * 0.75));
+    const tableX = chairWidth + chairGap;
+    const tableY = chairHeight + chairGap;
+    const positions = shape === "circle"
+        ? Array.from({ length: chairCount }, (_, index) => {
+            const angle = (index / chairCount) * Math.PI * 2 - Math.PI / 2;
+            const radiusX = tablePixelWidth / 2 + chairGap + chairWidth / 2;
+            const radiusY = tablePixelHeight / 2 + chairGap + chairHeight / 2;
+            return {
+                x: tableX + tablePixelWidth / 2 + Math.cos(angle) * radiusX - chairWidth / 2,
+                y: tableY + tablePixelHeight / 2 + Math.sin(angle) * radiusY - chairHeight / 2,
+                rotation: angle * 180 / Math.PI + 90
+            };
+        })
+        : positionChairs({
+            tableX,
+            tableY,
+            tableWidth: tablePixelWidth,
+            tableHeight: tablePixelHeight,
+            chairWidth,
+            chairHeight,
+            chairGap,
+            count: chairCount
+        });
+    const unitWidth = tablePixelWidth + (chairWidth + chairGap) * 2;
+    const unitHeight = tablePixelHeight + (chairHeight + chairGap) * 2;
+    const chairs = positions.map(position => `
+        <i class="chair ${position.side}"
+           style="left:${position.x}px; top:${position.y}px; width:${chairWidth}px; height:${chairHeight}px; transform:rotate(${position.rotation}deg);"></i>
+    `).join("");
+
+    return `
+        <div class="table-unit" style="--unit-width:${unitWidth}px; --unit-height:${unitHeight}px;">
+            <div class="chairs-layer">${chairs}</div>
+              <div class="table ${shape === "circle" ? "round-table" : shape === "square" ? "square-table" : "rect-table"}"
+                 style="left:${tableX}px; top:${tableY}px; width:${tablePixelWidth}px; height:${tablePixelHeight}px;">
+                <b>T${tableNumber}</b>
+                <small>${tableLength} × ${tableWidth} cm</small>
+            </div>
+        </div>
+    `;
+
+}
+
+
+function generateFloorPlan() {
+
+    const hallLength =
+        Number(document.getElementById("hallLength").value);
+
+    const hallWidth =
+        Number(document.getElementById("hallWidth").value);
+
+    const hallHeight =
+        Number(document.getElementById("hallHeight").value);
+
+    const tableCount =
+        Number(document.getElementById("tableCount").value);
+
+    document.getElementById("hallDimension").textContent =
+        `${hallLength} × ${hallWidth} × ${hallHeight} m`;
+
+    document.getElementById("heightDisplay").textContent =
+        `${hallHeight} m`;
+
+
+    const zones =
+        document.querySelectorAll(".zone");
+
+
+    zones.forEach((zone, index) => {
+
+        zone.style.display = index < tableCount ? "block" : "none";
+        renderZone(zone, index + 1);
+
+    });
+
+}
+
+
+function renderZone(zone, tableNumber) {
+    const shape = zone.querySelector(".zone-shape-input").value;
+    const tableLength = Math.max(40, Number(zone.querySelector(".zone-length-input").value) || 120);
+    const tableWidth = Math.max(40, Number(zone.querySelector(".zone-width-input").value) || 80);
+    const chairCount = Math.max(1, Math.min(24, Number(zone.querySelector(".zone-chair-input").value) || 1));
+
+    zone.querySelector(".zone-length-input").value = tableLength;
+    zone.querySelector(".zone-width-input").value = tableWidth;
+    zone.querySelector(".zone-chair-input").value = chairCount;
+    zone.querySelector(".table-wrap").innerHTML =
+        createTableMarkup(tableNumber, tableLength, tableWidth, chairCount, shape);
+}
+
+
+document.querySelectorAll(".zone").forEach((zone, index) => {
+    zone.querySelectorAll("input, select").forEach(control => {
+        control.addEventListener("input", () => renderZone(zone, index + 1));
+        control.addEventListener("change", () => renderZone(zone, index + 1));
+    });
+});
+
+
+generateFloorPlan();
+
+</script>
+
 </body>
 </html>
