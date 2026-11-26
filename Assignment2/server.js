@@ -1,6 +1,6 @@
 const http=require("http"),fs=require("fs"),path=require("path"),url=require("url");
 
-const PORT=3000,ROOT=__dirname,DATA_DIR=path.join(ROOT,"data"),DATA_FILE=path.join(DATA_DIR,"requests.json");
+const PORT=process.env.PORT||3002,ROOT=__dirname,DATA_DIR=path.join(ROOT,"data"),DATA_FILE=path.join(DATA_DIR,"requests.json");
 
 if(!fs.existsSync(DATA_DIR))fs.mkdirSync(DATA_DIR,{recursive:true});
 if(!fs.existsSync(DATA_FILE))fs.writeFileSync(DATA_FILE,"[]","utf8");

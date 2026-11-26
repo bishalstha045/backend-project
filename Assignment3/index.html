@@ -34,6 +34,9 @@
         <button type="button" class="tab-btn" id="tabBtnVisualizer" onclick="switchTab('visualizer')">
             Floor Plan Visualizer
         </button>
+        <button type="button" class="tab-btn" id="tabBtnAdmin" onclick="switchTab('admin')">
+            🛡️ Admin Approvals <span class="tab-badge" id="pendingCountBadge" style="background: #f59e0b; color: #fff;">0</span>
+        </button>
     </nav>
 
     <!-- =========================================================================
@@ -50,7 +53,11 @@
                 <div class="stat-label">Confirmed Bookings</div>
                 <div class="stat-value" id="statConfirmed">0</div>
             </div>
-            <div class="stat-box stat-amber">
+            <div class="stat-box stat-amber" style="cursor: pointer;" onclick="switchTab('admin')" title="Click to view and confirm pending bookings in Admin Panel">
+                <div class="stat-label">⏳ Pending Approvals</div>
+                <div class="stat-value" id="statPending">0</div>
+            </div>
+            <div class="stat-box stat-blue">
                 <div class="stat-label">Altered Registrations</div>
                 <div class="stat-value" id="statAltered">0</div>
             </div>
@@ -411,6 +418,74 @@
         </div>
     </section>
 
+    <!-- =========================================================================
+         TAB 4: ADMIN APPROVALS & CONFIRMATION QUEUE PANEL
+         ========================================================================= -->
+    <section id="tabContentAdmin" class="tab-content hidden">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px;">
+                <div>
+                    <h2 style="margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <span>🛡️ Admin Booking Approvals & Status Confirmation</span>
+                    </h2>
+                    <p style="font-size: 13px; color: #64748b; margin-top: 4px;">
+                        Review bookings and make fast 1-click confirmations, or use <strong>Confirm All Pending</strong> for bulk approval.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="primary-btn" onclick="adminConfirmAllPending()" style="background: #059669; border-color: #047857;" title="Confirm all pending bookings in one click">
+                        ⚡ Confirm All Pending
+                    </button>
+                    <button type="button" class="secondary-btn" onclick="loadRegistrations()" title="Refresh records">
+                        🔄 Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- ADMIN QUEUE FILTER TOOLBAR -->
+            <div class="toolbar" style="margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <label for="adminStatusFilter" style="font-size: 13px; font-weight: 600; color: #475569; margin: 0;">Queue Filter:</label>
+                    <select id="adminStatusFilter" class="select-filter" onchange="renderAdminQueue()">
+                        <option value="Pending" selected>⏳ Pending Approvals Only</option>
+                        <option value="All">All Bookings (Any Status)</option>
+                        <option value="Confirmed">Confirmed Bookings</option>
+                        <option value="Altered">Altered Bookings</option>
+                        <option value="Cancelled">Cancelled Bookings</option>
+                    </select>
+                </div>
+                <div style="font-size: 12px; color: #64748b;">
+                    Showing <strong id="adminQueueCount">0</strong> item(s) in queue
+                </div>
+            </div>
+
+            <!-- ADMIN APPROVALS TABLE -->
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Customer ID</th>
+                            <th>Customer Name</th>
+                            <th>Phone</th>
+                            <th>Event Schedule</th>
+                            <th>Hall & Tables</th>
+                            <th>Features / Inclusions</th>
+                            <th>Status</th>
+                            <th style="min-width: 190px;">Quick Admin Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminQueueTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 25px; color: #64748b;">
+                                Loading admin approval queue...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="footer">
         <p>Dining Management System | Experiment 3: Frontend (HTML/JS) + Node.js Backend + CRUD & Alter Operations</p>
@@ -434,15 +509,18 @@
                 <div class="field">
                     <label>
                         Customer ID (Unique)
-                        <span class="field-hint">Primary Key</span>
+                        <span class="field-hint">Primary Key (Immutable)</span>
                     </label>
-                    <input type="text" id="updateCustomerId" readonly>
+                    <input type="text" id="updateCustomerId" readonly style="background-color: #f1f5f9; cursor: not-allowed;">
                 </div>
 
-                <!-- CUSTOMER NAME -->
+                <!-- CUSTOMER NAME (IMMUTABLE) -->
                 <div class="field">
-                    <label>Customer Name</label>
-                    <input type="text" id="updateCustomerName" required>
+                    <label>
+                        Customer Name
+                        <span class="field-hint">Immutable</span>
+                    </label>
+                    <input type="text" id="updateCustomerName" readonly style="background-color: #f1f5f9; cursor: not-allowed;">
                 </div>
 
                 <!-- PHONE NUMBER -->
@@ -475,6 +553,17 @@
                 <div class="field">
                     <label>Event Date</label>
                     <input type="date" id="updateEventDate" required>
+                </div>
+
+                <!-- BOOKING STATUS -->
+                <div class="field">
+                    <label>Booking Status</label>
+                    <select id="updateStatus">
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Altered">Altered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
                 </div>
 
                 <!-- HALL LENGTH -->
@@ -633,18 +722,27 @@
                     </div>
                 </div>
 
-                <!-- CUSTOM SPECIFICATION ADDER -->
+                <!-- CUSTOM SPECIFICATION & EXTRA FEATURES ADDER -->
                 <div class="field full-width">
-                    <label>Add Custom Requirement / Specification</label>
+                    <label>Add Extra Items & Custom Specifications</label>
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                        <span style="font-size: 11px; color: #64748b; font-weight: 600; line-height: 22px;">Quick Features:</span>
+                        <button type="button" class="feature-chip" onclick="quickAddSpec('Projector & Screen')">+ Projector & Screen</button>
+                        <button type="button" class="feature-chip" onclick="quickAddSpec('DJ Sound Setup')">+ DJ Setup</button>
+                        <button type="button" class="feature-chip" onclick="quickAddSpec('Floral Stage Arch')">+ Floral Arch</button>
+                        <button type="button" class="feature-chip" onclick="quickAddSpec('Welcome Mocktails')">+ Welcome Drinks</button>
+                        <button type="button" class="feature-chip" onclick="quickAddSpec('Photo Booth')">+ Photo Booth</button>
+                        <button type="button" class="feature-chip" onclick="quickAddSpec('Valet Parking')">+ Valet Parking</button>
+                    </div>
                     <div class="input-with-button">
                         <input
                             type="text"
                             id="customSpecInput"
-                            placeholder="Type custom requirement (e.g. Projector, Floral stage, Extra valet)..."
+                            placeholder="Type custom item/feature (e.g. Projector, Floral stage, Extra valet)..."
                             onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomSpec();}"
                         >
                         <button type="button" class="secondary-btn" style="white-space: nowrap;" onclick="addCustomSpec()">
-                            + Add Spec
+                            + Add Feature
                         </button>
                     </div>
                     <div id="customSpecsContainer" class="specs-tags-container"></div>
@@ -678,13 +776,18 @@
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button type="submit" class="alter-btn">
-                    Apply Alterations & Save to alter.json
+            <div class="form-actions" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <button type="button" class="btn-danger-outline" onclick="revertCurrentCustomerAlterations()" title="Delete all altered features and restore to standard Confirmed status">
+                    🗑️ Remove All Altered Features
                 </button>
-                <button type="button" class="secondary-btn" onclick="closeAlterModal()">
-                    Cancel
-                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="alter-btn">
+                        Apply Alterations & Save to alter.json
+                    </button>
+                    <button type="button" class="secondary-btn" onclick="closeAlterModal()">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </form>
     </div>
@@ -712,6 +815,7 @@
                         <th>Altered Inclusions</th>
                         <th>Justification Note</th>
                         <th>Altered At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="alterationsLogBody">
@@ -796,18 +900,23 @@ function showMessage(text, type = "success", duration = 4500) {
 
 // TAB SWITCHING
 function switchTab(tab) {
-    const tabs = ["list", "form", "visualizer"];
+    const tabs = ["list", "form", "visualizer", "admin"];
     tabs.forEach(t => {
         const btn = document.getElementById(`tabBtn${capitalize(t)}`);
         const content = document.getElementById(`tabContent${capitalize(t)}`);
-        if (t === tab) {
-            btn.classList.add("active");
-            content.classList.remove("hidden");
-        } else {
-            btn.classList.remove("active");
-            content.classList.add("hidden");
+        if (btn && content) {
+            if (t === tab) {
+                btn.classList.add("active");
+                content.classList.remove("hidden");
+            } else {
+                btn.classList.remove("active");
+                content.classList.add("hidden");
+            }
         }
     });
+    if (tab === "admin") {
+        renderAdminQueue();
+    }
 }
 
 function capitalize(s) {
@@ -849,18 +958,26 @@ function updateStats() {
     const total = allRegistrations.length;
     let confirmed = 0;
     let altered = 0;
+    let pending = 0;
     let capacity = 0;
 
     allRegistrations.forEach(r => {
         const status = (r.status || "Confirmed").toLowerCase();
         if (status === "confirmed") confirmed++;
         else if (status === "altered") altered++;
+        else if (status === "pending") pending++;
         capacity += Number(r.totalChairs || (r.tableCount * r.chairsPerTable) || 0);
     });
 
     document.getElementById("statTotalCust").textContent = total;
     document.getElementById("statConfirmed").textContent = confirmed;
     document.getElementById("statAltered").textContent = altered;
+    if (document.getElementById("statPending")) {
+        document.getElementById("statPending").textContent = pending;
+    }
+    if (document.getElementById("pendingCountBadge")) {
+        document.getElementById("pendingCountBadge").textContent = pending;
+    }
     document.getElementById("statCapacity").textContent = capacity;
     document.getElementById("regCountBadge").textContent = total;
 }
@@ -890,6 +1007,23 @@ function filterTable() {
 
     tbody.innerHTML = filtered.map(r => {
         const statusClass = `badge-${(r.status || "confirmed").toLowerCase()}`;
+        const incs = [];
+        if (r.addOns?.catering && r.addOns.catering !== "None") incs.push(r.addOns.catering);
+        if (r.addOns?.soundSystem) incs.push("Audio");
+        if (r.addOns?.stageDecoration) incs.push("Stage");
+        if (r.addOns?.vipSection) incs.push("VIP");
+        if (Array.isArray(r.addOns?.customSpecifications) && r.addOns.customSpecifications.length > 0) {
+            incs.push(...r.addOns.customSpecifications);
+        }
+
+        const featuresBadge = incs.length ? `
+            <div style="margin-top: 5px;">
+                <span style="display: inline-block; font-size: 11px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; padding: 2px 7px; border-radius: 12px; font-weight: 500;" title="${escapeHtml(incs.join(', '))}">
+                    ✨ ${escapeHtml(incs.slice(0, 2).join(', '))}${incs.length > 2 ? ` (+${incs.length - 2})` : ''}
+                </span>
+            </div>
+        ` : '';
+
         return `
             <tr>
                 <td><span class="cust-id-badge">${r.customerId || r.reqId}</span></td>
@@ -904,7 +1038,10 @@ function filterTable() {
                     <div>${escapeHtml(r.eventDay)}</div>
                     <small style="color: #64748b;">${r.eventDate}</small>
                 </td>
-                <td><span class="badge ${statusClass}">${r.status || "Confirmed"}</span></td>
+                <td>
+                    <span class="badge ${statusClass}">${r.status || "Confirmed"}</span>
+                    ${featuresBadge}
+                </td>
                 <td>
                     <div class="action-buttons">
                         <button type="button" class="btn-icon btn-view" onclick="viewCustomerLayout('${r.customerId || r.reqId}')" title="View Layout & Floor Plan">
@@ -1324,6 +1461,7 @@ function openUpdateModal(id) {
     document.getElementById("updatePhone").value = cust.phone || "";
     document.getElementById("updateEventDay").value = cust.eventDay || "Monday";
     document.getElementById("updateEventDate").value = cust.eventDate || "";
+    document.getElementById("updateStatus").value = cust.status || "Confirmed";
     document.getElementById("updateHallLength").value = cust.hallLength || 15;
     document.getElementById("updateHallWidth").value = cust.hallWidth || 10;
     document.getElementById("updateTableCount").value = cust.tableCount || 7;
@@ -1351,6 +1489,7 @@ async function handleUpdateSubmit(e) {
     const payload = {
         customerName: document.getElementById("updateCustomerName").value.trim(),
         phone: document.getElementById("updatePhone").value.trim(),
+        status: document.getElementById("updateStatus").value,
         eventDay: document.getElementById("updateEventDay").value,
         eventDate: document.getElementById("updateEventDate").value,
         hallLength: Number(document.getElementById("updateHallLength").value),
@@ -1454,11 +1593,47 @@ function addCustomSpec() {
     showMessage(`Added specification '${val}'.`, "info");
 }
 
+function quickAddSpec(val) {
+    if (!val) return;
+    if (currentAlterCustomSpecs.some(s => s.toLowerCase() === val.toLowerCase())) {
+        showMessage(`Feature '${val}' is already added.`, "error");
+        return;
+    }
+    currentAlterCustomSpecs.push(val);
+    renderCustomSpecs();
+    updateAlterLiveSummary();
+    showMessage(`Added feature: ${val}`, "info");
+}
+
 function removeCustomSpec(index) {
     if (index >= 0 && index < currentAlterCustomSpecs.length) {
-        currentAlterCustomSpecs.splice(index, 1);
+        const removed = currentAlterCustomSpecs.splice(index, 1)[0];
         renderCustomSpecs();
         updateAlterLiveSummary();
+        showMessage(`Removed feature '${removed}'.`, "info");
+    }
+}
+
+async function revertCurrentCustomerAlterations() {
+    const customerId = document.getElementById("alterCustomerId").value;
+    if (!customerId) return;
+    if (!confirm(`Are you sure you want to delete ALL altered features for customer '${customerId}' and restore booking to standard Confirmed status?`)) {
+        return;
+    }
+    try {
+        const res = await fetch(`/api/customers/${encodeURIComponent(customerId)}/alter`, {
+            method: "DELETE"
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || "Failed to remove altered features.");
+        closeAlterModal();
+        showMessage(`All altered features for ${customerId} deleted and booking restored to Confirmed!`, "success");
+        await loadRegistrations();
+        if (currentViewingCustomer && (currentViewingCustomer.customerId === customerId || currentViewingCustomer.reqId === customerId)) {
+            viewCustomerLayout(customerId);
+        }
+    } catch (err) {
+        showMessage(err.message, "error");
     }
 }
 
@@ -1594,7 +1769,7 @@ async function handleAlterSubmit(e) {
 async function openAlterationsLogModal() {
     const modal = document.getElementById("alterationsLogModal");
     const tbody = document.getElementById("alterationsLogBody");
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 18px; color: #64748b;">Loading alterations log...</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 18px; color: #64748b;">Loading alterations log...</td></tr>`;
     modal.classList.remove("hidden");
 
     try {
@@ -1603,7 +1778,7 @@ async function openAlterationsLogModal() {
         const list = data.alterations || [];
 
         if (!list.length) {
-            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 25px; color: #64748b;">No alterations logged in <code>data/alter.json</code> yet. Alter a registration to create entries.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 25px; color: #64748b;">No alterations logged in <code>data/alter.json</code> yet. Alter a registration to create entries.</td></tr>`;
             return;
         }
 
@@ -1618,6 +1793,7 @@ async function openAlterationsLogModal() {
 
             const statusClass = `badge-${(a.status || "altered").toLowerCase()}`;
             const timeStr = a.alteredAt ? new Date(a.alteredAt).toLocaleString() : "-";
+            const targetId = a.alterationId || a.customerId;
 
             return `
                 <tr>
@@ -1627,16 +1803,39 @@ async function openAlterationsLogModal() {
                     <td><small>${incs.length ? escapeHtml(incs.join(", ")) : "Standard"}</small></td>
                     <td><small style="color: #475569;">${escapeHtml(a.alterationNotes || "N/A")}</small></td>
                     <td><small style="color: #64748b;">${escapeHtml(timeStr)}</small></td>
+                    <td>
+                        <button type="button" class="btn-delete-log" onclick="deleteAlterationLog('${escapeHtml(targetId)}')" title="Delete this alteration entry from alter.json">
+                            🗑️ Delete
+                        </button>
+                    </td>
                 </tr>
             `;
         }).join("");
     } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #b91c1c; padding: 18px;">Error loading alterations: ${escapeHtml(err.message)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #b91c1c; padding: 18px;">Error loading alterations: ${escapeHtml(err.message)}</td></tr>`;
     }
 }
 
 function closeAlterationsLogModal() {
     document.getElementById("alterationsLogModal").classList.add("hidden");
+}
+
+async function deleteAlterationLog(id) {
+    if (!confirm(`Are you sure you want to delete alteration record '${id}' from alter.json?`)) {
+        return;
+    }
+    try {
+        const res = await fetch(`/api/alterations/${encodeURIComponent(id)}`, {
+            method: "DELETE"
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || "Failed to delete alteration record.");
+        showMessage("Alteration record deleted from alter.json successfully!", "success");
+        await openAlterationsLogModal();
+        await loadRegistrations();
+    } catch (err) {
+        showMessage(err.message, "error");
+    }
 }
 
 // =============================================================================
@@ -1680,6 +1879,117 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async () =
         showMessage(err.message, "error");
     }
 });
+
+// =============================================================================
+// ADMIN APPROVALS & CONFIRMATIONS QUEUE
+// =============================================================================
+function renderAdminQueue() {
+    const tbody = document.getElementById("adminQueueTableBody");
+    if (!tbody) return;
+
+    const filterVal = document.getElementById("adminStatusFilter")?.value || "Pending";
+    const filtered = allRegistrations.filter(r => {
+        const st = (r.status || "Confirmed").toLowerCase();
+        if (filterVal === "All") return true;
+        return st === filterVal.toLowerCase();
+    });
+
+    const countElem = document.getElementById("adminQueueCount");
+    if (countElem) countElem.textContent = filtered.length;
+
+    if (!filtered.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align: center; padding: 30px; color: #64748b;">
+                    No bookings found in the '${escapeHtml(filterVal)}' queue. All caught up!
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(r => {
+        const id = r.customerId || r.reqId;
+        const statusClass = `badge-${(r.status || "confirmed").toLowerCase()}`;
+
+        const incs = [];
+        if (r.addOns?.catering && r.addOns.catering !== "None") incs.push(r.addOns.catering);
+        if (r.addOns?.soundSystem) incs.push("Audio");
+        if (r.addOns?.stageDecoration) incs.push("Stage");
+        if (r.addOns?.vipSection) incs.push("VIP");
+        if (Array.isArray(r.addOns?.customSpecifications) && r.addOns.customSpecifications.length > 0) {
+            incs.push(...r.addOns.customSpecifications);
+        }
+
+        const featuresHtml = incs.length
+            ? `<small style="color: #0284c7; font-weight: 500;">✨ ${escapeHtml(incs.join(", "))}</small>`
+            : `<small style="color: #94a3b8;">Standard Booking</small>`;
+
+        return `
+            <tr>
+                <td><span class="cust-id-badge">${escapeHtml(id)}</span></td>
+                <td><strong>${escapeHtml(r.customerName)}</strong></td>
+                <td><span class="phone-badge">${escapeHtml(r.phone)}</span></td>
+                <td>
+                    <div>${escapeHtml(r.eventDay)}</div>
+                    <small style="color: #64748b;">${escapeHtml(r.eventDate)}</small>
+                </td>
+                <td>${r.hallLength}×${r.hallWidth}m (${r.tableCount} tbls, ${r.totalChairs || r.tableCount * r.chairsPerTable} chrs)</td>
+                <td>${featuresHtml}</td>
+                <td><span class="badge ${statusClass}">${escapeHtml(r.status || "Confirmed")}</span></td>
+                <td>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button type="button" class="btn-confirm" onclick="adminSetCustomerStatus('${escapeHtml(id)}', 'Confirmed')" title="Confirm & Approve Booking">
+                            ✅ Confirm
+                        </button>
+                        <button type="button" class="btn-pending" onclick="adminSetCustomerStatus('${escapeHtml(id)}', 'Pending')" title="Mark as Pending Verification">
+                            ⏳ Pending
+                        </button>
+                        <button type="button" class="btn-cancel-admin" onclick="adminSetCustomerStatus('${escapeHtml(id)}', 'Cancelled')" title="Reject / Cancel Booking">
+                            ❌ Cancel
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+// 1-CLICK ADMIN STATUS CHANGER
+async function adminSetCustomerStatus(id, newStatus) {
+    try {
+        const res = await fetch(`/api/customers/${encodeURIComponent(id)}/status`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus })
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || "Failed to update booking status.");
+
+        showMessage(`Customer ${id} status set to '${newStatus}' successfully!`, "success");
+        await loadRegistrations();
+        renderAdminQueue();
+    } catch (err) {
+        showMessage(err.message, "error");
+    }
+}
+
+// BULK CONFIRM ALL PENDING BOOKINGS
+async function adminConfirmAllPending() {
+    try {
+        const res = await fetch("/api/admin/confirm-all", {
+            method: "POST"
+        });
+        const result = await res.json();
+        if (!res.ok) throw new Error(result.message || "Failed to confirm pending bookings.");
+
+        showMessage(result.message || "Confirmed all pending bookings!", "success");
+        await loadRegistrations();
+        renderAdminQueue();
+    } catch (err) {
+        showMessage(err.message, "error");
+    }
+}
 </script>
 
 </body>

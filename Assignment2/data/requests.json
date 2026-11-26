@@ -9,7 +9,7 @@
         "chairsPerTable": 4,
         "totalChairs": 28,
         "eventDay": "Monday",
-        "eventDate": "2026-09-02",
+        "eventDate": "2026-11-25",
         "layoutPreference": "compact",
         "remarksRequired": "Yes",
         "remarks": "niceinciencien",
@@ -78,7 +78,8 @@
             }
         ],
         "customerId": "CUST001",
-        "status": "Confirmed"
+        "status": "Confirmed",
+        "updatedAt": "2026-11-15T13:40:05.119Z"
     },
     {
         "reqId": "REQ002",
@@ -171,7 +172,7 @@
         "chairsPerTable": 8,
         "totalChairs": 80,
         "eventDay": "Thursday",
-        "eventDate": "2026-08-20",
+        "eventDate": "2026-11-25",
         "layoutPreference": "automatic",
         "remarksRequired": "No",
         "remarks": "",
@@ -240,7 +241,20 @@
             }
         ],
         "customerId": "CUST003",
-        "status": "Confirmed"
+        "status": "Altered",
+        "addOns": {
+            "catering": "None",
+            "soundSystem": false,
+            "stageDecoration": false,
+            "vipSection": false,
+            "airConditioning": true,
+            "customSpecifications": [
+                "chairrrrrr"
+            ]
+        },
+        "alterationNotes": "Status updated to Altered. Added facilities: Air Conditioning. Custom requests: chairrrrrr.",
+        "alteredAt": "2026-11-15T13:40:30.455Z",
+        "updatedAt": "2026-11-15T13:40:41.831Z"
     },
     {
         "reqId": "REQ004",

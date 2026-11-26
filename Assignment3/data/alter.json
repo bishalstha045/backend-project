@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "alterationId": "ALT03045632",
+        "customerId": "CUST003",
+        "customerName": "abc",
+        "phone": "3847239847",
+        "eventDate": "2026-11-25",
+        "status": "Altered",
+        "addOns": {
+            "catering": "None",
+            "soundSystem": false,
+            "stageDecoration": false,
+            "vipSection": false,
+            "airConditioning": true,
+            "customSpecifications": [
+                "chairrrrrr"
+            ]
+        },
+        "alterationNotes": "Status updated to Altered. Added facilities: Air Conditioning. Custom requests: chairrrrrr.",
+        "alteredAt": "2026-11-15T13:40:30.456Z"
+    }
+]

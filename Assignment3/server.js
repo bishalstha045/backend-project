@@ -80,6 +80,7 @@ function saveAlterationRecord(target, alterationNotes, addOns, status) {
 
     const alterations = readAlterations();
     const cleanRecord = {
+        alterationId: "ALT" + String(Date.now()).slice(-6) + Math.floor(Math.random() * 100).toString().padStart(2, "0"),
         customerId: target.customerId || target.reqId,
         customerName: target.customerName,
         phone: target.phone,
@@ -90,19 +91,39 @@ function saveAlterationRecord(target, alterationNotes, addOns, status) {
         alteredAt: new Date().toISOString()
     };
 
-    const targetId = cleanRecord.customerId.toLowerCase();
-    const existingIndex = alterations.findIndex(a =>
-        a.customerId && a.customerId.toLowerCase() === targetId
+    // Deduplicate exact duplicate within 2 seconds
+    const isDuplicate = alterations.some(a => 
+        a.customerId && a.customerId.toLowerCase() === cleanRecord.customerId.toLowerCase() &&
+        a.alterationNotes === cleanRecord.alterationNotes &&
+        JSON.stringify(a.addOns) === JSON.stringify(cleanRecord.addOns) &&
+        (Date.now() - new Date(a.alteredAt).getTime() < 2000)
     );
 
-    if (existingIndex >= 0) {
-        alterations[existingIndex] = cleanRecord;
-    } else {
+    if (!isDuplicate) {
         alterations.push(cleanRecord);
+        fs.writeFileSync(ALTER_DATA_FILE, JSON.stringify(alterations, null, 4), "utf8");
     }
-
-    fs.writeFileSync(ALTER_DATA_FILE, JSON.stringify(alterations, null, 4), "utf8");
     return cleanRecord;
+}
+
+function syncAlterationCustomerInfo(customerId, phone, eventDate) {
+    if (!fs.existsSync(ALTER_DATA_FILE)) return;
+    try {
+        const alterations = readAlterations();
+        let changed = false;
+        alterations.forEach(a => {
+            if (a.customerId && a.customerId.toLowerCase() === customerId.toLowerCase()) {
+                if (phone !== undefined) a.phone = phone;
+                if (eventDate !== undefined) a.eventDate = eventDate;
+                changed = true;
+            }
+        });
+        if (changed) {
+            fs.writeFileSync(ALTER_DATA_FILE, JSON.stringify(alterations, null, 4), "utf8");
+        }
+    } catch (e) {
+        console.error("Error syncing alterations:", e.message);
+    }
 }
 
 function removeAlterationRecord(id) {
@@ -143,15 +164,22 @@ function getNextRequestId(requests) {
     return "REQ" + String(max + 1).padStart(3, "0");
 }
 
-function validateRequest(data, isUpdate = false) {
+function validateRequest(data, isUpdate = false, originalDate = null) {
     if (!isUpdate || data.customerId !== undefined) {
         if (!data.customerId || !String(data.customerId).trim()) {
             return "Customer ID is required and cannot be empty.";
+        }
+        if (!/^CUST\d{3,}$/i.test(String(data.customerId).trim())) {
+            return "Invalid Customer ID format. Customer IDs must be sequential numbers like CUST001, CUST002.";
         }
     }
 
     if (!data.customerName || !String(data.customerName).trim()) {
         return "Customer name is required.";
+    }
+
+    if (/\d/.test(String(data.customerName))) {
+        return "Customer name cannot contain numbers. Only alphabetic characters and spaces are allowed.";
     }
 
     if (!/^[0-9]{10}$/.test(String(data.phone || "").trim())) {
@@ -180,6 +208,14 @@ function validateRequest(data, isUpdate = false) {
 
     if (!data.eventDay) return "Event day is required.";
     if (!data.eventDate) return "Event date is required.";
+
+    const todayStr = new Date().toISOString().split("T")[0];
+    if (!isUpdate && data.eventDate < todayStr) {
+        return "Event date cannot be in the past. Select today or a future date.";
+    }
+    if (isUpdate && originalDate && data.eventDate !== originalDate && data.eventDate < todayStr) {
+        return "Event date cannot be in the past. Select today or a future date.";
+    }
 
     if (!["automatic", "compact", "spacious"].includes(data.layoutPreference)) {
         return "Invalid layout preference.";
@@ -290,6 +326,12 @@ app.get("/api/next-customer-id", (req, res) => {
     res.json({ success: true, nextId });
 });
 
+app.get("/api/next-id", (req, res) => {
+    const requests = readRequests();
+    const nextId = getNextCustomerId(requests);
+    res.json({ success: true, nextId });
+});
+
 app.post("/api/layouts", (req, res) => {
     const error = validateLayoutInput(req.body);
     if (error) {
@@ -348,6 +390,29 @@ app.get("/api/requests/:id", getSingleHandler);
 app.get("/api/alterations", (req, res) => {
     const alterations = readAlterations();
     res.json({ success: true, count: alterations.length, alterations });
+});
+
+// Delete specific alteration entry from alter.json
+app.delete("/api/alterations/:id", (req, res) => {
+    const id = req.params.id;
+    if (!fs.existsSync(ALTER_DATA_FILE)) {
+        return res.status(404).json({ success: false, message: "No alterations found." });
+    }
+    const alterations = readAlterations();
+    const index = alterations.findIndex(a =>
+        (a.alterationId && a.alterationId.toLowerCase() === id.toLowerCase()) ||
+        (a.customerId && a.customerId.toLowerCase() === id.toLowerCase())
+    );
+    if (index === -1) {
+        return res.status(404).json({ success: false, message: `Alteration '${id}' not found.` });
+    }
+    const deleted = alterations.splice(index, 1)[0];
+    fs.writeFileSync(ALTER_DATA_FILE, JSON.stringify(alterations, null, 4), "utf8");
+    res.json({
+        success: true,
+        message: `Alteration record for customer ${deleted.customerId} deleted successfully from alter.json.`,
+        deleted
+    });
 });
 
 /* ==========================================================================
@@ -446,27 +511,32 @@ const updateRegistrationHandler = (req, res) => {
 
     const target = requests[index];
 
+    // Enforce Immutability of Customer ID
     if (data.customerId && data.customerId.trim().toLowerCase() !== target.customerId.toLowerCase()) {
-        const newId = data.customerId.trim();
-        const duplicate = requests.some((r, i) =>
-            i !== index && r.customerId && r.customerId.toLowerCase() === newId.toLowerCase()
-        );
-        if (duplicate) {
-            return res.status(409).json({
-                success: false,
-                message: `Customer ID '${newId}' is already in use by another registration.`
-            });
-        }
-        target.customerId = newId;
+        return res.status(400).json({
+            success: false,
+            message: "Customer ID is an immutable primary key and cannot be modified."
+        });
     }
 
-    const validationError = validateRequest({ ...target, ...data }, true);
+    // Enforce Immutability of Customer Name
+    if (data.customerName && data.customerName.trim().toLowerCase() !== target.customerName.toLowerCase()) {
+        return res.status(400).json({
+            success: false,
+            message: "Customer Name is an immutable field and cannot be modified after registration."
+        });
+    }
+
+    const validationError = validateRequest(
+        { ...target, ...data, customerId: target.customerId, customerName: target.customerName },
+        true,
+        target.eventDate
+    );
     if (validationError) {
         return res.status(400).json({ success: false, message: validationError });
     }
-
-    if (data.customerName !== undefined) target.customerName = String(data.customerName).trim();
     if (data.phone !== undefined) target.phone = String(data.phone).trim();
+    if (data.status !== undefined) target.status = data.status;
     if (data.eventDay !== undefined) target.eventDay = data.eventDay;
     if (data.eventDate !== undefined) target.eventDate = data.eventDate;
     if (data.remarksRequired !== undefined) target.remarksRequired = data.remarksRequired;
@@ -500,6 +570,9 @@ const updateRegistrationHandler = (req, res) => {
     target.updatedAt = new Date().toISOString();
     saveRequests(requests);
 
+    // Keep alteration records synchronized with updated customer contact info
+    syncAlterationCustomerInfo(target.customerId, target.phone, target.eventDate);
+
     res.json({
         success: true,
         message: `Customer ${target.customerId} registration modified successfully.`,
@@ -510,6 +583,57 @@ const updateRegistrationHandler = (req, res) => {
 app.put("/api/customers/:id", updateRegistrationHandler);
 app.put("/api/requests/:id", updateRegistrationHandler);
 app.patch("/api/customers/:id", updateRegistrationHandler);
+
+// Lightweight Admin Status Update Endpoint (1-Click Confirmation)
+app.patch("/api/customers/:id/status", (req, res) => {
+    const id = req.params.id;
+    const { status, adminNotes } = req.body;
+    if (!status) {
+        return res.status(400).json({ success: false, message: "Status is required." });
+    }
+    const requests = readRequests();
+    const target = requests.find(r =>
+        (r.customerId && r.customerId.toLowerCase() === id.toLowerCase()) ||
+        (r.reqId && r.reqId.toLowerCase() === id.toLowerCase())
+    );
+    if (!target) {
+        return res.status(404).json({ success: false, message: `Customer '${id}' not found.` });
+    }
+    target.status = status;
+    target.admin = "Admin";
+    if (adminNotes) target.adminNotes = String(adminNotes).trim();
+    target.updatedAt = new Date().toISOString();
+    saveRequests(requests);
+    res.json({
+        success: true,
+        message: `Customer ${target.customerId} booking status updated to '${status}'.`,
+        request: target
+    });
+});
+
+// Admin Bulk Confirmation: Confirm all pending bookings in one click
+app.post("/api/admin/confirm-all", (req, res) => {
+    const requests = readRequests();
+    let count = 0;
+    requests.forEach(r => {
+        if ((r.status || "").toLowerCase() === "pending") {
+            r.status = "Confirmed";
+            r.admin = "Admin";
+            r.updatedAt = new Date().toISOString();
+            count++;
+        }
+    });
+    if (count > 0) {
+        saveRequests(requests);
+    }
+    res.json({
+        success: true,
+        confirmedCount: count,
+        message: count > 0
+            ? `Successfully confirmed ${count} pending booking(s).`
+            : "No pending bookings were found in the queue."
+    });
+});
 
 /* ==========================================================================
    Session 9: Alter Registration Endpoint (PATCH/Alter in Exp2 & alter.json)
@@ -571,6 +695,47 @@ app.patch("/api/customers/:id/alter", alterRegistrationHandler);
 app.post("/api/customers/:id/alter", alterRegistrationHandler);
 app.patch("/api/requests/:id/alter", alterRegistrationHandler);
 
+// Delete or revert all altered features from customer record
+const resetAlterationHandler = (req, res) => {
+    const id = req.params.id;
+    const requests = readRequests();
+    const index = requests.findIndex(r =>
+        (r.customerId && r.customerId.toLowerCase() === id.toLowerCase()) ||
+        (r.reqId && r.reqId.toLowerCase() === id.toLowerCase())
+    );
+
+    if (index === -1) {
+        return res.status(404).json({ success: false, message: `Customer '${id}' not found.` });
+    }
+
+    const target = requests[index];
+    target.status = "Confirmed";
+    target.addOns = {
+        catering: "None",
+        soundSystem: false,
+        stageDecoration: false,
+        vipSection: false,
+        airConditioning: true,
+        customSpecifications: []
+    };
+    target.alterationNotes = "";
+    target.alteredAt = null;
+    target.updatedAt = new Date().toISOString();
+    saveRequests(requests);
+
+    // Also remove from alter.json
+    removeAlterationRecord(target.customerId || target.reqId);
+
+    res.json({
+        success: true,
+        message: `All altered features for customer ${target.customerId} have been deleted and booking reset to Confirmed standard status.`,
+        request: target
+    });
+};
+
+app.delete("/api/customers/:id/alter", resetAlterationHandler);
+app.delete("/api/requests/:id/alter", resetAlterationHandler);
+
 /* ==========================================================================
    Session 10: Delete Registration Endpoint (DELETE from Exp2 & alter.json)
    ========================================================================== */
@@ -604,8 +769,12 @@ app.delete("/api/requests/:id", deleteRegistrationHandler);
 /* ==========================================================================
    Session 11: Server Initialization
    ========================================================================== */
-app.listen(PORT, () => {
-    console.log(`Dining Management System (Express.js) running at http://localhost:${PORT}`);
-    console.log(`[Data Source] Experiment 2: ${EXP2_DATA_FILE}`);
-    console.log(`[Alter Log] Experiment 3: ${ALTER_DATA_FILE}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Dining Management System (Express.js) running at http://localhost:${PORT}`);
+        console.log(`[Data Source] Experiment 2: ${EXP2_DATA_FILE}`);
+        console.log(`[Alter Log] Experiment 3: ${ALTER_DATA_FILE}`);
+    });
+}
+
+module.exports = app;

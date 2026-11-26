@@ -1,0 +1,22 @@
+{
+  "name": "dining-management-system-experiment4",
+  "version": "1.0.0",
+  "description": "Experiment 4 - Integrated Dining Management System with React.js (State and Props)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_exp4.js"
+  },
+  "keywords": [
+    "dining-management",
+    "express",
+    "react",
+    "state",
+    "props"
+  ],
+  "author": "24BTRCN091",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
